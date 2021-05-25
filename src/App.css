@@ -12,6 +12,11 @@ body {
   padding: 20px;
 }
 
+/* The left container uses 90% of the screen! */
+.app__left {
+  flex: 0.9;
+}
+
 .app__header {
   display: flex;
   justify-content: space-between;
