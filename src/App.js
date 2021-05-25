@@ -1,6 +1,7 @@
 import './App.css';
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import { useEffect, useState } from 'react';
+import InfoBox from './InfoBox'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
   // USEEFFECT essentially runs a piece of code based on a given condition
 
   const [countries, setCountries] = useState([])
+  const [country, setCountry] = useState('worldwide')
 
   useEffect(() => {
     // The code inside here runs only once when the component loads and not again!
@@ -34,6 +36,14 @@ function App() {
     getCountriesData();
   }, []);
 
+
+  // We are using async here soon, not yet needed
+  const onCountryChange = async(event) => {
+    const countryCode = event.target.value
+
+    setCountry(countryCode)
+  }
+
   return (
     <div className="app">
       <div className="app__header">
@@ -42,8 +52,10 @@ function App() {
           {/* Loop through countries and dropdown those countries for you to select  */}
           <Select
             variant="outlined"
-            value="abc"
+            value={country}
+            onChange={onCountryChange}
           >
+            <MenuItem value="worldwide">Worldwide</MenuItem>
             {
               countries.map(country => (
                 <MenuItem value={country.value}>{country.name}</MenuItem>
@@ -51,6 +63,15 @@ function App() {
             }
           </Select>
         </FormControl>
+      </div>
+
+      <div className="app__stats">
+        <InfoBox title="Coronavirus Cases" cases={1234} total={2000}/>
+        
+        <InfoBox title="Coronavirus recoveries" cases={12341} total={500}/>
+        
+        <InfoBox title="Coronavirus deaths" cases={41232} total={80}/>
+        
       </div>
     </div>
   );
