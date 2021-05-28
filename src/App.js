@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import InfoBox from "./InfoBox";
 import Map from "./Map";
+import Table from "./Table";
 
 function App() {
   // STATE IS ESSENTIALLY HOW TO WRITE A VARIABLE IN REACT <<<<<<<<<<
@@ -19,7 +20,8 @@ function App() {
 
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
-  const [countryInfo, setCountryInfo] = useState([]);
+  const [countryInfo, setCountryInfo] = useState({});
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     fetch("https://disease.sh/v3/covid-19/all")
@@ -42,6 +44,7 @@ function App() {
             value: country.countryInfo.iso2, // UK, USA
           }));
 
+          setTableData(data);
           setCountries(countries);
         });
     };
@@ -61,10 +64,7 @@ function App() {
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        // We are setting the country code here
-        setCountry(countryCode);
-
-        // We are setting the country info in our app
+        // all of the data for that particular country selected!
         setCountryInfo(data);
       });
   };
@@ -114,7 +114,7 @@ function App() {
       <Card className="app__right">
         <CardContent>
           <h3>Live Cases by Country</h3>
-          {/* Table */}
+          <Table countries={tableData} />
           <h3>Worldwide new Cases</h3>
           {/* Graph */}
         </CardContent>
